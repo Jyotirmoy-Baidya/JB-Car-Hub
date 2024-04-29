@@ -21,6 +21,7 @@ export interface OptionProps {
 export interface CustomFilterProps {
     title: String;
     options: OptionProps[];
+    setFilter: (arg0: string) => void
 }
 
 export interface SearchBarProps {

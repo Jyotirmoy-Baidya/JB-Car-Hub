@@ -5,7 +5,6 @@ import { fuels, yearsOfProduction } from "@/constants";
 import { HomeProps } from "@/types";
 
 import { fetchCars } from "@/utils"
-import next from "next";
 import { useEffect, useState } from "react";
 
 const Home = () => {
@@ -25,26 +24,26 @@ const Home = () => {
     const [limit, setLimit] = useState(10);
 
     useEffect(() => {
+
+        const getCars = async () => {
+            setLoading(true);
+            try {
+                const result = await fetchCars({
+                    manufacturer: manufacturer || "",
+                    year: year || 2022,
+                    fuel: fuel || "",
+                    limit: limit || 10,
+                    model: model || "",
+                });
+                setAllCars(result);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        }
         getCars();
     }, [fuel, model, year, manufacturer, limit]);
-
-    const getCars = async () => {
-        setLoading(true);
-        try {
-            const result = await fetchCars({
-                manufacturer: manufacturer || "",
-                year: year || 2022,
-                fuel: fuel || "",
-                limit: limit || 10,
-                model: model || "",
-            });
-            setAllCars(result);
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
-        }
-    }
 
     const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
 
@@ -83,7 +82,7 @@ const Home = () => {
                 ) : (
                     <div className="home__error-container">
                         <h2 className="text-black text-xl font-bold">Oops, no results</h2>
-                        <p>{allCars?.message}</p>
+                        {/* <p>{allCars?.message}</p> */}
                     </div>
 
                 )
