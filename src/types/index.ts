@@ -18,10 +18,9 @@ export interface OptionProps {
     value: string
 }
 
-export interface CustomFilterProps {
-    title: String;
+export interface CustomFilterProps<T> {
     options: OptionProps[];
-    setFilter: (arg0: string) => void
+    setFilter: (selected: T) => void;
 }
 
 export interface SearchBarProps {
